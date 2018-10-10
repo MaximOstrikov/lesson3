@@ -150,7 +150,7 @@ console.log(_constants__WEBPACK_IMPORTED_MODULE_2__["MY_DATA"]);
 
 
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(() => {
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#create_user').on('submit', (event) => {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#add').on('click', (event) => {
         event.preventDefault();
 
         const user = {
@@ -159,7 +159,7 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(() => {
             password: jquery__WEBPACK_IMPORTED_MODULE_0___default()('#password').val()
         };
         jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
-            url: "/users/save",
+            url: "http://localhost/users/save",
             type: "POST",
             data: JSON.stringify(user),
             contentType: "application/json; charset=utf-8",
@@ -172,16 +172,31 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(() => {
     });
 
     jquery__WEBPACK_IMPORTED_MODULE_0___default()('#btn').on('click', function() {
-        jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
-            url: "/users/list",
-            type: "POST",
-            data: JSON.stringify({"pagination": {"skip": 0, "pageSize": 10}, "filter": {}}),
-            contentType: "application/json; charset=utf-8",
-            success: (data, textStatus) => {
-                console.log(data);
-                console.log(textStatus);
-            }
-        })
+        event.preventDefault();
+
+        const id = parseInt(jquery__WEBPACK_IMPORTED_MODULE_0___default()('#id').val());
+        if (id) {
+            jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
+                url: "http://localhost/users/" + id,
+                method: "GET",
+                contentType: "application/json; charset=utf-8",
+                success: (data, textStatus) => {
+                    console.log(data);
+                    console.log(textStatus);
+                }
+            });
+        } else {
+            jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
+                url: "http://localhost/users/list/",
+                type: "POST",
+                data: JSON.stringify({"pagination": {"skip": 0, "pageSize": 10}, "filter": {}}),
+                contentType: "application/json; charset=utf-8",
+                success: (data, textStatus) => {
+                    console.log(data);
+                    console.log(textStatus);
+                }
+            })
+        }
     })
 });
 

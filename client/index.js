@@ -10,7 +10,7 @@ console.log(my_data);
 
 
 $(document).ready(() => {
-    $('#create_user').on('submit', (event) => {
+    $('#add').on('click', (event) => {
         event.preventDefault();
 
         const user = {
@@ -19,7 +19,7 @@ $(document).ready(() => {
             password: $('#password').val()
         };
         $.ajax({
-            url: "/users/save",
+            url: "http://localhost/users/save",
             type: "POST",
             data: JSON.stringify(user),
             contentType: "application/json; charset=utf-8",
@@ -32,15 +32,30 @@ $(document).ready(() => {
     });
 
     $('#btn').on('click', function() {
-        $.ajax({
-            url: "/users/list",
-            type: "POST",
-            data: JSON.stringify({"pagination": {"skip": 0, "pageSize": 10}, "filter": {}}),
-            contentType: "application/json; charset=utf-8",
-            success: (data, textStatus) => {
-                console.log(data);
-                console.log(textStatus);
-            }
-        })
+        event.preventDefault();
+
+        const id = parseInt($('#id').val());
+        if (id) {
+            $.ajax({
+                url: "http://localhost/users/" + id,
+                method: "GET",
+                contentType: "application/json; charset=utf-8",
+                success: (data, textStatus) => {
+                    console.log(data);
+                    console.log(textStatus);
+                }
+            });
+        } else {
+            $.ajax({
+                url: "http://localhost/users/list/",
+                type: "POST",
+                data: JSON.stringify({"pagination": {"skip": 0, "pageSize": 10}, "filter": {}}),
+                contentType: "application/json; charset=utf-8",
+                success: (data, textStatus) => {
+                    console.log(data);
+                    console.log(textStatus);
+                }
+            })
+        }
     })
 });
