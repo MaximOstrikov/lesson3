@@ -52,8 +52,9 @@ $(document).ready(() => {
                 data: JSON.stringify({"pagination": {"skip": 0, "pageSize": 10}, "filter": {}}),
                 contentType: "application/json; charset=utf-8",
                 success: (data, textStatus) => {
-                    console.log(data);
-                    console.log(textStatus);
+                    $('#tbl').prepend()
+                    // console.log(data);
+                    // console.log(textStatus);
                 }
             })
         }
